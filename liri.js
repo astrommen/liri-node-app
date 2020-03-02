@@ -1,11 +1,14 @@
-// require("dotenv").config();
+require("dotenv").config();
 
-// var keys = require("./keys.js");
+var keys = require("./keys.js");
 
-// var spotify = new Spotify(keys.spotify);
+var Spotify = require("node-spotify-api");
+
 var moment = require("moment");
 
 var axios = require("axios");
+
+var spotify = new Spotify(keys.spotify);
 
 if (process.argv[2]==="concert-this"){
     var artist = process.argv.slice(3).join(" ");
@@ -25,4 +28,14 @@ if (process.argv[2]==="concert-this"){
             });
         }
     );
+} else if (process.argv[2]==="spotify-this-song"){
+    var song = process.argv.slice(3).join(" ");
+    console.log(song);
+    spotify.search({type: "track", query: song},
+    function(err, data){
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        };
+        console.log(data.tracks.items);
+    });
 }
