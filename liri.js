@@ -3,6 +3,7 @@
 // var keys = require("./keys.js");
 
 // var spotify = new Spotify(keys.spotify);
+var moment = require("moment");
 
 var axios = require("axios");
 
@@ -14,7 +15,8 @@ if (process.argv[2]==="concert-this"){
             response.data.forEach(element => {
                 
                 console.log(element.venue);
-                console.log(element.datetime);
+                var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
+                console.log(date);
             });
         }
     )
