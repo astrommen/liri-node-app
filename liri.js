@@ -36,10 +36,17 @@ if (process.argv[2]==="concert-this"){
         if (err) {
             return console.log('Error occurred: ' + err);
         };
-        console.log(data.tracks.items[0]);
-        console.log(data.tracks.items[0].artists[0].name);
-        console.log(data.tracks.items[0].name);
-        console.log(data.tracks.items[0].album.name);
-        console.log(data.tracks.items[0].preview_url);
+
+        var i = 0;
+        data.tracks.items.forEach(element => {
+            if (element.preview_url != null){// && i < 1){
+                i++;
+                console.log(i);
+                console.log("Artist: " + element.artists[0].name);
+                console.log("Song: " + element.name);
+                console.log("Album: " + element.album.name);
+                console.log("Preview Link: " + element.preview_url);
+            }
+        })
     });
 }
