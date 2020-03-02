@@ -14,11 +14,15 @@ if (process.argv[2]==="concert-this"){
         function(response) {
             response.data.forEach(element => {
                 
-                console.log(element.venue);
+                var name = element.venue.name;
+                var city = element.venue.city;
+                var country = element.venue.country;
                 var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
-                console.log(date);
+                console.log(
+                    "Name of the venue: " + name +
+                    "\nLocation: " + city + "," + country +
+                    "\nDate: " + date + "\n");
             });
         }
-    )
-
+    );
 }
