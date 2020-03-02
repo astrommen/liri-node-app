@@ -66,4 +66,11 @@ if (process.argv[2]==="concert-this"){
             "\nPreview Link: " + defaulted.preview_url + "\n");
         });
     };
-};
+} else if(process.argv[2]==="movie-this"){
+    var movie = process.argv.slice(3).join(" ");
+    axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
+    .then(function(response) {
+        var result = response.data;
+        console.log(result);
+    })
+}
