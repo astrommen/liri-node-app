@@ -14,6 +14,7 @@ if (process.argv[2]==="concert-this"){
             response.data.forEach(element => {
                 
                 console.log(element.venue);
+                console.log(element.datetime);
             });
         }
     )
