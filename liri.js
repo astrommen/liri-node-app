@@ -36,6 +36,10 @@ if (process.argv[2]==="concert-this"){
         if (err) {
             return console.log('Error occurred: ' + err);
         };
-        console.log(data.tracks.items);
+        console.log(data.tracks.items[0]);
+        console.log(data.tracks.items[0].artists[0].name);
+        console.log(data.tracks.items[0].name);
+        console.log(data.tracks.items[0].album.name);
+        console.log(data.tracks.items[0].preview_url);
     });
 }
