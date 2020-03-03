@@ -12,24 +12,13 @@ var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 
+var userInput = process.argv.slice(3).join(" ");
+
 if (process.argv[2]==="concert-this"){
-    var artist = process.argv.slice(3).join(" ");
-    console.log(artist);
-    axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
-        function(response) {
-            response.data.forEach(element => {
-                
-                var name = element.venue.name;
-                var city = element.venue.city;
-                var country = element.venue.country;
-                var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
-                console.log(
-                    "Name of the venue: " + name +
-                    "\nLocation: " + city + "," + country +
-                    "\nDate: " + date + "\n");
-            });
-        }
-    );
+    // var artist = process.argv.slice(3).join(" ");
+    // console.log(artist);
+    concert();
+
 } else if (process.argv[2]==="spotify-this-song"){
     if(process.argv[3]!=null){
         var song = process.argv.slice(3).join(" ");
@@ -113,4 +102,22 @@ if (process.argv[2]==="concert-this"){
         process.argv[2] =  output[0]; console.log(process.argv[2]);
         process.argv[3] = output[1]; console.log(process.argv[3]);
     });
+}
+
+function concert(userInput) {
+    axios.get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp").then(
+        function(response) {
+            response.data.forEach(element => {
+                
+                var name = element.venue.name;
+                var city = element.venue.city;
+                var country = element.venue.country;
+                var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
+                console.log(
+                    "\nName of the venue: " + name +
+                    "\nLocation: " + city + "," + country +
+                    "\nDate: " + date + "\n");
+            });
+        }
+    );
 }
