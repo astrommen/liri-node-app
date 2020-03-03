@@ -71,6 +71,14 @@ if (process.argv[2]==="concert-this"){
     axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
     .then(function(response) {
         var result = response.data;
-        console.log(result);
+        console.log(
+            "Title: " + result.Title + 
+            "\nYear: " + result.Year + 
+            "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
+            "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+            "\nCountry: " + result.Country + 
+            "\nLanguage: " + result.Language + 
+            "\nPlot: " + result.Plot + 
+            "\nActors: " + result.Title + "\n");
     })
 }
