@@ -8,6 +8,8 @@ var moment = require("moment");
 
 var axios = require("axios");
 
+var fs = require("fs");
+
 var spotify = new Spotify(keys.spotify);
 
 if (process.argv[2]==="concert-this"){
@@ -100,4 +102,15 @@ if (process.argv[2]==="concert-this"){
             ); 
         });
     }
+} else if (process.argv[2]==="do-what-it-says") {
+    fs.readFile("random.txt", "utf8", function(err, data) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(data);
+        var output = data.split(",");
+        console.log(output);
+        process.argv[2] =  output[0]; console.log(process.argv[2]);
+        process.argv[3] = output[1]; console.log(process.argv[3]);
+    });
 }
