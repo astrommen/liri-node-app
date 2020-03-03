@@ -21,10 +21,10 @@ if (process.argv[2]==="concert-this"){
 
 } else if (process.argv[2]==="spotify-this-song"){
     if(process.argv[3]!=null){
-        var song = process.argv.slice(3).join(" ");
+        // var song = process.argv.slice(3).join(" ");
         var i = 0;
-        console.log(song);
-        spotify.search({type: "track", query: song},
+        // console.log(song);
+        spotify.search({type: "track", query: userInput},
         function(err, data){
             if (err) {
                 return console.log('Error occurred: ' + err);
@@ -104,20 +104,27 @@ if (process.argv[2]==="concert-this"){
     });
 }
 
+// Concert Function for modularity
 function concert(userInput) {
-    axios.get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp").then(
-        function(response) {
-            response.data.forEach(element => {
-                
-                var name = element.venue.name;
-                var city = element.venue.city;
-                var country = element.venue.country;
-                var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
-                console.log(
-                    "\nName of the venue: " + name +
-                    "\nLocation: " + city + "," + country +
-                    "\nDate: " + date + "\n");
-            });
-        }
-    );
-}
+    
+    // Bands In Town API
+    axios.get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp")
+    .then(function(response) {
+        
+        // loop thru data call array & parse info to vars
+        response.data.forEach(element => {
+            
+            var name = element.venue.name;
+            var city = element.venue.city;
+            var country = element.venue.country;
+            var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
+            
+            // Prints parsed data in readable format
+            console.log(
+                "\nName of the venue: " + name +
+                "\nLocation: " + city + "," + country +
+                "\nDate: " + date + "\n"
+            );
+        });
+    });
+}; // End of Concert Function
