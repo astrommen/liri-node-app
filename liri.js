@@ -67,18 +67,37 @@ if (process.argv[2]==="concert-this"){
         });
     };
 } else if(process.argv[2]==="movie-this"){
-    var movie = process.argv.slice(3).join(" ");
-    axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
-    .then(function(response) {
-        var result = response.data;
-        console.log(
-            "Title: " + result.Title + 
-            "\nYear: " + result.Year + 
-            "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
-            "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
-            "\nCountry: " + result.Country + 
-            "\nLanguage: " + result.Language + 
-            "\nPlot: " + result.Plot + 
-            "\nActors: " + result.Title + "\n");
-    })
+    if(process.argv[3]!=null){
+        var movie = process.argv.slice(3).join(" ");
+        axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
+        .then(function(response) {
+            var result = response.data;
+            console.log(
+                "Title: " + result.Title + 
+                "\nYear: " + result.Year + 
+                "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
+                "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+                "\nCountry: " + result.Country + 
+                "\nLanguage: " + result.Language + 
+                "\nPlot: " + result.Plot + 
+                "\nActors: " + result.Actors + "\n");
+        });
+    } else {
+        console.log("no input");
+        var movie = "Mr. Nobody";
+        axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
+        .then(function(response) {
+            var result = response.data;
+            console.log(
+                "Title: " + result.Title + 
+                "\nYear: " + result.Year + 
+                "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
+                "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+                "\nCountry: " + result.Country + 
+                "\nLanguage: " + result.Language + 
+                "\nPlot: " + result.Plot + 
+                "\nActors: " + result.Actors + "\n"
+            ); 
+        });
+    }
 }
