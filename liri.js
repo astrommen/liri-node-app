@@ -20,7 +20,7 @@ if (process.argv[2]==="concert-this"){
     concert(userInput);
 
 } else if (process.argv[2]==="spotify-this-song"){
-    
+
     // if(!userInput){
     //     userInput = "The Sign";
     //     song(userInput);
@@ -41,39 +41,41 @@ if (process.argv[2]==="concert-this"){
         // });
     // };
 } else if(process.argv[2]==="movie-this"){
-    if(process.argv[3]!=null){
-        var movie = process.argv.slice(3).join(" ");
-        axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
-        .then(function(response) {
-            var result = response.data;
-            console.log(
-                "Title: " + result.Title + 
-                "\nYear: " + result.Year + 
-                "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
-                "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
-                "\nCountry: " + result.Country + 
-                "\nLanguage: " + result.Language + 
-                "\nPlot: " + result.Plot + 
-                "\nActors: " + result.Actors + "\n");
-        });
-    } else {
-        console.log("no input");
-        var movie = "Mr. Nobody";
-        axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
-        .then(function(response) {
-            var result = response.data;
-            console.log(
-                "Title: " + result.Title + 
-                "\nYear: " + result.Year + 
-                "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
-                "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
-                "\nCountry: " + result.Country + 
-                "\nLanguage: " + result.Language + 
-                "\nPlot: " + result.Plot + 
-                "\nActors: " + result.Actors + "\n"
-            ); 
-        });
-    }
+
+    movie(userInput);
+    // if(process.argv[3]!=null){
+    //     var movie = process.argv.slice(3).join(" ");
+    //     axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
+    //     .then(function(response) {
+    //         var result = response.data;
+    //         console.log(
+    //             "Title: " + result.Title + 
+    //             "\nYear: " + result.Year + 
+    //             "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
+    //             "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+    //             "\nCountry: " + result.Country + 
+    //             "\nLanguage: " + result.Language + 
+    //             "\nPlot: " + result.Plot + 
+    //             "\nActors: " + result.Actors + "\n");
+    //     });
+    // } else {
+    //     console.log("no input");
+    //     var movie = "Mr. Nobody";
+    //     axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
+    //     .then(function(response) {
+    //         var result = response.data;
+    //         console.log(
+    //             "Title: " + result.Title + 
+    //             "\nYear: " + result.Year + 
+    //             "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
+    //             "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+    //             "\nCountry: " + result.Country + 
+    //             "\nLanguage: " + result.Language + 
+    //             "\nPlot: " + result.Plot + 
+    //             "\nActors: " + result.Actors + "\n"
+    //         ); 
+    //     });
+    // }
 } else if (process.argv[2]==="do-what-it-says") {
     fs.readFile("random.txt", "utf8", function(err, data) {
         if (err) {
@@ -115,7 +117,7 @@ function concert(userInput) {
 // Spotify Function for modularity
 function song(userInput) {
     if(!userInput){
-        userInput = "The Sign"
+        userInput = "The Sign";
     }
 
     spotify.search({type: "track", query: userInput},
@@ -152,3 +154,32 @@ function song(userInput) {
         // });
     });
 }; // End of Spotify Function
+
+function movie(userInput) {
+    if(!userInput){
+        userInput = "Mr. Nobody";
+    }
+    axios.get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy")
+    .then(function(response, err) {
+
+        // logs any errors
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        };
+
+        // sets response to var for modularity
+        var result = response.data;
+
+        // prints out parsed data in easy format
+        console.log(
+            "Title: " + result.Title + 
+            "\nYear: " + result.Year + 
+            "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
+            "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+            "\nCountry: " + result.Country + 
+            "\nLanguage: " + result.Language + 
+            "\nPlot: " + result.Plot + 
+            "\nActors: " + result.Actors + "\n"
+        );
+    });
+};
