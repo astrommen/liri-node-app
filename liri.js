@@ -17,46 +17,29 @@ var userInput = process.argv.slice(3).join(" ");
 if (process.argv[2]==="concert-this"){
     // var artist = process.argv.slice(3).join(" ");
     // console.log(artist);
-    concert();
+    concert(userInput);
 
 } else if (process.argv[2]==="spotify-this-song"){
-    if(process.argv[3]!=null){
-        // var song = process.argv.slice(3).join(" ");
-        var i = 0;
-        // console.log(song);
-        spotify.search({type: "track", query: userInput},
-        function(err, data){
-            if (err) {
-                return console.log('Error occurred: ' + err);
-            };
-            data.tracks.items.forEach(element => {
-                if (element.preview_url != null && i<1){
-                    i++
-                    console.log(element);
-                    console.log(
-                        "#"+ i + "\nArtist: " + element.artists[0].name +
-                        "\nSong: " + element.name +
-                        "\nAlbum: " + element.album.name +
-                        "\nPreview Link: " + element.preview_url
-                    );
-                    
-                };
-            });
-        });
-    } else{
-        console.log("no input");
-        spotify.search({type: "track", query: "The Sign"},
-        function(err,data){
-            if (err) {
-                return console.log('Error occurred: ' + err);
-            };
-            var defaulted = data.tracks.items[0];
-            console.log("\nArtist: " + defaulted.artists[0].name +
-            "\nSong: " + defaulted.name +
-            "\nAlbum: " + defaulted.album.name +
-            "\nPreview Link: " + defaulted.preview_url + "\n");
-        });
-    };
+    
+    // if(!userInput){
+    //     userInput = "The Sign";
+    //     song(userInput);
+
+    // } else {
+
+        song(userInput);
+        // spotify.search({type: "track", query: "The Sign"},
+        // function(err,data){
+        //     if (err) {
+        //         return console.log('Error occurred: ' + err);
+        //     };
+        //     var defaulted = data.tracks.items[0];
+        //     console.log("\nArtist: " + defaulted.artists[0].name +
+        //     "\nSong: " + defaulted.name +
+        //     "\nAlbum: " + defaulted.album.name +
+        //     "\nPreview Link: " + defaulted.preview_url + "\n");
+        // });
+    // };
 } else if(process.argv[2]==="movie-this"){
     if(process.argv[3]!=null){
         var movie = process.argv.slice(3).join(" ");
@@ -128,3 +111,44 @@ function concert(userInput) {
         });
     });
 }; // End of Concert Function
+
+// Spotify Function for modularity
+function song(userInput) {
+    if(!userInput){
+        userInput = "The Sign"
+    }
+
+    spotify.search({type: "track", query: userInput},
+    function(err, data){
+
+        // logs any errors
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        };
+
+        // loop thru data call array & parse info to vars
+        var element = data.tracks.items[0];
+
+        // limits results to those with working preview urls
+        if (element.preview_url != null){
+
+            // increases iterator for each element in data array
+            // i++;
+
+            var artist = element.artists[0].name;
+            var song = element.name;
+            var album = element.album.name;
+            var preview = element.preview_url;
+
+            // Prints parsed data in readable format
+            console.log(
+                // "\n#"+ i + 
+                "\nArtist: " + artist +
+                "\nSong: " + song +
+                "\nAlbum: " + album +
+                "\nPreview Link: " + preview + "\n"
+            );
+        };
+        // });
+    });
+}; // End of Spotify Function
