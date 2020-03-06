@@ -1,3 +1,4 @@
+// Required Packages
 require("dotenv").config();
 
 var keys = require("./keys.js");
@@ -9,73 +10,26 @@ var moment = require("moment");
 var axios = require("axios");
 
 var fs = require("fs");
+//End of Package List
 
+// var to grab Spotify API ID & Key
 var spotify = new Spotify(keys.spotify);
 
+// initialize var to user query
 var userInput = process.argv.slice(3).join(" ");
 
 if (process.argv[2]==="concert-this"){
-    // var artist = process.argv.slice(3).join(" ");
-    // console.log(artist);
+
     concert(userInput);
 
 } else if (process.argv[2]==="spotify-this-song"){
 
-    // if(!userInput){
-    //     userInput = "The Sign";
-    //     song(userInput);
-
-    // } else {
-
         song(userInput);
-        // spotify.search({type: "track", query: "The Sign"},
-        // function(err,data){
-        //     if (err) {
-        //         return console.log('Error occurred: ' + err);
-        //     };
-        //     var defaulted = data.tracks.items[0];
-        //     console.log("\nArtist: " + defaulted.artists[0].name +
-        //     "\nSong: " + defaulted.name +
-        //     "\nAlbum: " + defaulted.album.name +
-        //     "\nPreview Link: " + defaulted.preview_url + "\n");
-        // });
-    // };
+
 } else if(process.argv[2]==="movie-this"){
 
     movie(userInput);
-    // if(process.argv[3]!=null){
-    //     var movie = process.argv.slice(3).join(" ");
-    //     axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
-    //     .then(function(response) {
-    //         var result = response.data;
-    //         console.log(
-    //             "Title: " + result.Title + 
-    //             "\nYear: " + result.Year + 
-    //             "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
-    //             "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
-    //             "\nCountry: " + result.Country + 
-    //             "\nLanguage: " + result.Language + 
-    //             "\nPlot: " + result.Plot + 
-    //             "\nActors: " + result.Actors + "\n");
-    //     });
-    // } else {
-    //     console.log("no input");
-    //     var movie = "Mr. Nobody";
-    //     axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy")
-    //     .then(function(response) {
-    //         var result = response.data;
-    //         console.log(
-    //             "Title: " + result.Title + 
-    //             "\nYear: " + result.Year + 
-    //             "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
-    //             "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
-    //             "\nCountry: " + result.Country + 
-    //             "\nLanguage: " + result.Language + 
-    //             "\nPlot: " + result.Plot + 
-    //             "\nActors: " + result.Actors + "\n"
-    //         ); 
-    //     });
-    // }
+    
 } else if (process.argv[2]==="do-what-it-says") {
     fs.readFile("random.txt", "utf8", function(err, data) {
         if (err) {
@@ -116,10 +70,15 @@ function concert(userInput) {
 
 // Spotify Function for modularity
 function song(userInput) {
+
+    // checks no input to use default
     if(!userInput){
+
+        // default value is The Sign
         userInput = "The Sign";
     }
 
+    // Spotify API 
     spotify.search({type: "track", query: userInput},
     function(err, data){
 
@@ -133,9 +92,6 @@ function song(userInput) {
 
         // limits results to those with working preview urls
         if (element.preview_url != null){
-
-            // increases iterator for each element in data array
-            // i++;
 
             var artist = element.artists[0].name;
             var song = element.name;
@@ -151,12 +107,16 @@ function song(userInput) {
                 "\nPreview Link: " + preview + "\n"
             );
         };
-        // });
     });
 }; // End of Spotify Function
 
+// Movie Function for modularity
 function movie(userInput) {
+
+    // checks no input to use default
     if(!userInput){
+
+        // default is Mr. Nobody
         userInput = "Mr. Nobody";
     }
     axios.get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy")
@@ -174,12 +134,14 @@ function movie(userInput) {
         console.log(
             "Title: " + result.Title + 
             "\nYear: " + result.Year + 
-            "\n" + result.Ratings[0].Source +": "+ result.Ratings[0].Value +
-            "\n" + result.Ratings[1].Source +": "+ result.Ratings[1].Value +
+            "\n" + result.Ratings[0].Source + 
+            ": " + result.Ratings[0].Value +
+            "\n" + result.Ratings[1].Source + 
+            ": " + result.Ratings[1].Value +
             "\nCountry: " + result.Country + 
             "\nLanguage: " + result.Language + 
             "\nPlot: " + result.Plot + 
             "\nActors: " + result.Actors + "\n"
         );
     });
-};
+}; // End of Movie Function 
