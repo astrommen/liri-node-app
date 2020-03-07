@@ -17,17 +17,21 @@ var spotify = new Spotify(keys.spotify);
 
 // initialize var to user query
 var userInput = process.argv.slice(3).join(" ");
+var divider = "\n------------------------------------------------------------\n\n";
 
 if (process.argv[2]==="concert-this"){
 
-    concert(userInput);
+    // runs concert function
+    concert(userInput); 
 
 } else if (process.argv[2]==="spotify-this-song"){
 
-        song(userInput);
+    // runs song function
+    song(userInput);
 
 } else if(process.argv[2]==="movie-this"){
 
+    // runs movie function
     movie(userInput);
     
 } else if (process.argv[2]==="do-what-it-says") {
@@ -45,6 +49,8 @@ if (process.argv[2]==="concert-this"){
 
 // Concert Function for modularity
 function concert(userInput) {
+
+    console.log(userInput);
     
     // Bands In Town API
     axios.get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp")
@@ -59,11 +65,21 @@ function concert(userInput) {
             var date = moment(element.datetime).format('MMMM Do YYYY, h:mm a');
             
             // Prints parsed data in readable format
-            console.log(
-                "\nName of the venue: " + name +
-                "\nLocation: " + city + "," + country +
-                "\nDate: " + date + "\n"
-            );
+            var concertData = [
+                userInput,
+                "Venue: " + name,
+                "City: " + city,
+                "Country" + country,
+                "Date: " + date,
+                divider
+            ].join("\n\n");
+
+            // Append showData and the divider to log.txt, print showData to the console
+            fs.appendFile("log.txt", concertData, 
+            function(err) {
+                if (err) throw err;
+                console.log(concertData);
+            });
         });
     });
 }; // End of Concert Function
@@ -99,13 +115,20 @@ function song(userInput) {
             var preview = element.preview_url;
 
             // Prints parsed data in readable format
-            console.log(
-                // "\n#"+ i + 
-                "\nArtist: " + artist +
-                "\nSong: " + song +
-                "\nAlbum: " + album +
-                "\nPreview Link: " + preview + "\n"
-            );
+            var songData = [
+                "\nArtist: " + artist,
+                "\nSong: " + song,
+                "\nAlbum: " + album,
+                "\nPreview Link: " + preview,
+                divider
+            ].join("\n\n");
+
+            // Append showData and the divider to log.txt, print showData to the console
+            fs.appendFile("log.txt", songData, 
+            function(err) {
+                if (err) throw err;
+                console.log(songData);
+            });
         };
     });
 }; // End of Spotify Function
