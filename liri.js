@@ -17,7 +17,7 @@ var spotify = new Spotify(keys.spotify);
 
 // initialize var to user query
 var userInput = process.argv.slice(3).join(" ");
-var divider = "\n------------------------------------------------------------\n\n";
+var divider = "------------------------------------------------------------\n\n";
 
 if (process.argv[2]==="do-what-it-says") {
     fs.readFile("random.txt", "utf8", function(err, data) {
@@ -58,8 +58,6 @@ function liriBot(){
 
 // Concert Function for modularity
 function concert(userInput) {
-
-    console.log(userInput);
     
     // Bands In Town API
     axios.get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp")
@@ -165,17 +163,25 @@ function movie(userInput) {
         var result = response.data;
 
         // prints out parsed data in easy format
-        console.log(
-            "Title: " + result.Title + 
-            "\nYear: " + result.Year + 
-            "\n" + result.Ratings[0].Source + 
-            ": " + result.Ratings[0].Value +
-            "\n" + result.Ratings[1].Source + 
-            ": " + result.Ratings[1].Value +
-            "\nCountry: " + result.Country + 
-            "\nLanguage: " + result.Language + 
-            "\nPlot: " + result.Plot + 
-            "\nActors: " + result.Actors + "\n"
-        );
+        var movieData = [
+            "\nTitle: " + result.Title,
+            "Year: " + result.Year, 
+            result.Ratings[0].Source + 
+            ": " + result.Ratings[0].Value, 
+            result.Ratings[1].Source + 
+            ": " + result.Ratings[1].Value,
+            "Country: " + result.Country,  
+            "Language: " + result.Language,
+            "Plot: " + result.Plot,
+            "Actors: " + result.Actors,
+            divider
+        ].join("\n\n")
+
+        // Append showData and the divider to log.txt, print showData to the console
+        fs.appendFile("log.txt", movieData, 
+        function(err) {
+            if (err) throw err;
+            console.log(movieData);
+        });
     });
 }; // End of Movie Function 
