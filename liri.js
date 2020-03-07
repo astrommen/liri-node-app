@@ -17,7 +17,7 @@ var spotify = new Spotify(keys.spotify);
 
 // initialize var to user query
 var userInput = process.argv.slice(3).join(" ");
-var divider = "------------------------------------------------------------\n\n";
+var divider = "------------------------------------------------------------\n";
 
 if (process.argv[2]==="do-what-it-says") {
     fs.readFile("random.txt", "utf8", function(err, data) {
@@ -76,7 +76,7 @@ function concert(userInput) {
                 userInput,
                 "Venue: " + name,
                 "City: " + city,
-                "Country" + country,
+                "Country: " + country,
                 "Date: " + date,
                 divider
             ].join("\n\n");
@@ -124,9 +124,9 @@ function song(userInput) {
             // Prints parsed data in readable format
             var songData = [
                 "\nArtist: " + artist,
-                "\nSong: " + song,
-                "\nAlbum: " + album,
-                "\nPreview Link: " + preview,
+                "Song: " + song,
+                "Album: " + album,
+                "Preview Link: " + preview,
                 divider
             ].join("\n\n");
 
