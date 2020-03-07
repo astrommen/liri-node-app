@@ -19,22 +19,7 @@ var spotify = new Spotify(keys.spotify);
 var userInput = process.argv.slice(3).join(" ");
 var divider = "\n------------------------------------------------------------\n\n";
 
-if (process.argv[2]==="concert-this"){
-
-    // runs concert function
-    concert(userInput); 
-
-} else if (process.argv[2]==="spotify-this-song"){
-
-    // runs song function
-    song(userInput);
-
-} else if(process.argv[2]==="movie-this"){
-
-    // runs movie function
-    movie(userInput);
-    
-} else if (process.argv[2]==="do-what-it-says") {
+if (process.argv[2]==="do-what-it-says") {
     fs.readFile("random.txt", "utf8", function(err, data) {
         if (err) {
           return console.log(err);
@@ -42,10 +27,34 @@ if (process.argv[2]==="concert-this"){
         console.log(data);
         var output = data.split(",");
         console.log(output);
-        process.argv[2] =  output[0]; console.log(process.argv[2]);
-        process.argv[3] = output[1]; console.log(process.argv[3]);
+        process.argv[2] =  output[0]; 
+        userInput = output[1]; 
+        
+        liriBot();
     });
+} else {
+    liriBot();
 }
+
+// Liri Bot Function for modularity
+function liriBot(){
+    if (process.argv[2]==="concert-this"){
+
+        // runs concert function
+        concert(userInput); 
+    
+    } else if (process.argv[2]==="spotify-this-song"){
+    
+        // runs song function
+        song(userInput);
+    
+    } else if(process.argv[2]==="movie-this"){
+    
+        // runs movie function
+        movie(userInput);
+        
+    };
+}// End of LiriBot
 
 // Concert Function for modularity
 function concert(userInput) {
@@ -142,12 +151,14 @@ function movie(userInput) {
         // default is Mr. Nobody
         userInput = "Mr. Nobody";
     }
+
+    // OMDB Movie API
     axios.get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy")
-    .then(function(response, err) {
+    .then(function(response, error) {
 
         // logs any errors
-        if (err) {
-            return console.log('Error occurred: ' + err);
+        if (error) {
+            return console.log('Error occurred: ' + error);
         };
 
         // sets response to var for modularity
