@@ -6,35 +6,27 @@
 
 1. LIRI takes the following commands:
    * `concert-this`
-
    * `spotify-this-song`
-
    * `movie-this`
-
    * `do-what-it-says`
 
 2. What each command shows:
     * `concert-this`
-        * This will search the Bands in Town Artist Events API (`"https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"`) for an artist and render the following information about each event to the terminal:
+        * This will search the Bands in Town Artist Events API for an artist and render the following information about each event to the terminal:
 
             * Name of the venue
-
             * Venue location
-
             * Date of the Event (use moment to format this as "MM/DD/YYYY")
     
     * `spotify-this-song`
         * This will show the following information about the song in the terminal:
 
             * Artist(s)
-
             * The song's name
-
             * A preview link of the song from Spotify
-
             * The album that the song is from
 
-        * If no song is provided then your program will default to "The Sign" by Ace of Base.
+        * If no song is provided then the program will default to "The Sign" by Ace of Base.
     
     * `movie-this`
         * This will output the following information to your terminal/bash window:
